@@ -4,7 +4,7 @@ using System.Data;
 
 namespace RepoDBBlogApi.Shared;
 
-public class BlogService
+public class BlogService : IBlogService
 {
 	private readonly SqlConnectionStringBuilder _sqlConnectionStringBuilder = new()
 	{
