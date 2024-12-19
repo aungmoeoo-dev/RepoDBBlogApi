@@ -58,7 +58,7 @@ public class BlogService
 	{
 		BlogResponseModel responseModel = new();
 
-		string blogId = Guid.NewGuid().ToString(); ;
+		string blogId = Guid.NewGuid().ToString();
 		requestModel.BlogId = blogId;
 		string result = _dbConnection.Insert<TBL_Blog, string>(requestModel);
 
