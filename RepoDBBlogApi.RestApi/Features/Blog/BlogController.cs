@@ -17,12 +17,12 @@ public class BlogController : ControllerBase
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> GetBlogs()
+	public IActionResult GetBlogs()
 	{
 		BlogListResponseModel responseModel = new();
 		try
 		{
-			responseModel = await _blogService.GetBlogs();
+			responseModel = _blogService.GetBlogs();
 			return Ok(responseModel);
 		}
 		catch (Exception ex)
@@ -34,12 +34,70 @@ public class BlogController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
-	public async Task<IActionResult> GetBlog(string id)
+	public IActionResult GetBlog(string id)
 	{
 		BlogResponseModel responseModel = new();
 		try
 		{
-			responseModel = await _blogService.GetBlog(id);
+			responseModel = _blogService.GetBlog(id);
+			if (!responseModel.IsSuccess) return BadRequest(responseModel);
+
+			return Ok(responseModel);
+		}
+		catch (Exception ex)
+		{
+			responseModel.IsSuccess = false;
+			responseModel.Message = ex.Message;
+			return StatusCode(500, responseModel);
+		}
+	}
+
+	[HttpPost]
+	public IActionResult CreateBlog([FromBody]TBL_Blog requestModel)
+	{
+		BlogResponseModel responseModel = new();
+		try
+		{
+			responseModel = _blogService.CreateBlog(requestModel);
+			if (!responseModel.IsSuccess) return BadRequest(responseModel);
+
+			return Ok(responseModel);
+		}
+		catch (Exception ex)
+		{
+			responseModel.IsSuccess = false;
+			responseModel.Message = ex.Message;
+			return StatusCode(500, responseModel);
+		}
+	}
+
+	[HttpPatch("{id}")]
+	public IActionResult UpdateBlog(string id, [FromBody] TBL_Blog requestModel)
+	{
+		BlogResponseModel responseModel = new();
+		try
+		{
+			requestModel.BlogId = id;
+			responseModel = _blogService.UpdateBlog(requestModel);
+			if (!responseModel.IsSuccess) return BadRequest(responseModel);
+
+			return Ok(responseModel);
+		}
+		catch (Exception ex)
+		{
+			responseModel.IsSuccess = false;
+			responseModel.Message = ex.Message;
+			return StatusCode(500, responseModel);
+		}
+	}
+
+	[HttpDelete("{id}")]
+	public IActionResult DeleteBlog(string id)
+	{
+		BlogResponseModel responseModel = new();
+		try
+		{
+			responseModel = _blogService.DeleteBlog(id);
 			if (!responseModel.IsSuccess) return BadRequest(responseModel);
 
 			return Ok(responseModel);
