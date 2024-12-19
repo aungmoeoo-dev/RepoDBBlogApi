@@ -9,7 +9,7 @@ public class BlogService
 	private readonly SqlConnectionStringBuilder _sqlConnectionStringBuilder = new()
 	{
 		DataSource = ".",
-		InitialCatalog = "TestDB",
+		InitialCatalog = "BlogDB",
 		UserID = "sa",
 		Password = "Aa145156167!",
 		TrustServerCertificate = true
@@ -23,24 +23,23 @@ public class BlogService
 
 		RepoDb.SqlServerBootstrap.Initialize();
 	}
-	public async Task<BlogListResponseModel> GetBlogs()
+	public BlogListResponseModel GetBlogs()
 	{
 		BlogListResponseModel responseModel = new();
 
-		var list =  await _dbConnection.QueryAllAsync<BlogModel>("TBL_Blog");
+		var list =  _dbConnection.QueryAll<TBL_Blog>().ToList();
 
 		responseModel.IsSuccess = true;
 		responseModel.Message = "Success";
-		responseModel.Data = list.ToList();
+		responseModel.Data = list;
 		return responseModel;
 	}
 
-	public async Task<BlogResponseModel> GetBlog(string id)
+	public BlogResponseModel GetBlog(string id)
 	{
 		BlogResponseModel responseModel = new();
 
-		var list = await _dbConnection.QueryAsync<BlogModel>("TBL_Blog", x => x.BlogId == id);
-		var blog = list.FirstOrDefault();
+		var blog = _dbConnection.Query<TBL_Blog>(x => x.BlogId == id).FirstOrDefault();
 
 		if (blog is null)
 		{
@@ -55,23 +54,25 @@ public class BlogService
 		return responseModel;
 	}
 
-	public async Task<BlogResponseModel> CreateBlog(BlogModel requestModel)
+	public BlogResponseModel CreateBlog(TBL_Blog requestModel)
 	{
 		BlogResponseModel responseModel = new();
 
-		int result = await _dbConnection.InsertAsync<BlogModel, int>(requestModel);
+		string blogId = Guid.NewGuid().ToString(); ;
+		requestModel.BlogId = blogId;
+		string result = _dbConnection.Insert<TBL_Blog, string>(requestModel);
 
-		responseModel.IsSuccess = result > 0;
-		responseModel.Message = result > 0 ? "Saving successful." : "Saving failed.";
-		responseModel.Data = result > 0 ? requestModel : null;
+		responseModel.IsSuccess = result != "";
+		responseModel.Message = result != "" ? "Saving successful." : "Saving failed.";
+		responseModel.Data = result != "" ? requestModel : null;
 		return responseModel;
 	}
 
-	public async Task<BlogResponseModel> UpdateBlog(BlogModel requestModel)
+	public BlogResponseModel UpdateBlog(TBL_Blog requestModel)
 	{
 		BlogResponseModel responseModel = new();
 
-		int result = await _dbConnection.UpdateAsync<BlogModel>(requestModel);
+		int result = _dbConnection.Update<TBL_Blog>(requestModel);
 
 		responseModel.IsSuccess = result > 0;
 		responseModel.Message = result > 0 ? "Updating successful." : "Updating failed.";
@@ -79,11 +80,11 @@ public class BlogService
 		return responseModel;
 	}
 
-	public async Task<BlogResponseModel> DeleteBlog(string id)
+	public BlogResponseModel DeleteBlog(string id)
 	{
 		BlogResponseModel responseModel = new();
 
-		int result = await _dbConnection.DeleteAsync(id);
+		int result = _dbConnection.Delete<TBL_Blog>(id);
 
 		responseModel.IsSuccess = result > 0;
 		responseModel.Message = result > 0 ? "Deleting successful." : "Deleting failed.";
