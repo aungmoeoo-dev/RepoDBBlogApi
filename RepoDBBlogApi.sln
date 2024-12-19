@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoDBBlogApi.Shared", "Rep
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoDBBlogApi.MinimalApi", "RepoDBBlogApi.MinimalApi\RepoDBBlogApi.MinimalApi.csproj", "{1D44C9CC-97F7-4EDE-8AF9-B777E2B4DC53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoDBBlogApi.ConsoleApp", "RepoDBBlogApi.ConsoleApp\RepoDBBlogApi.ConsoleApp.csproj", "{098CDBEF-D473-48B4-AC65-37A7FCE8017E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1D44C9CC-97F7-4EDE-8AF9-B777E2B4DC53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D44C9CC-97F7-4EDE-8AF9-B777E2B4DC53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D44C9CC-97F7-4EDE-8AF9-B777E2B4DC53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{098CDBEF-D473-48B4-AC65-37A7FCE8017E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{098CDBEF-D473-48B4-AC65-37A7FCE8017E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{098CDBEF-D473-48B4-AC65-37A7FCE8017E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{098CDBEF-D473-48B4-AC65-37A7FCE8017E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
